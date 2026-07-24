@@ -24,6 +24,10 @@ tool hands back can never point at a route the app router no longer serves.
   caller passes in whatever overrides it has and gets back a full origin set,
   with local-dev hosts derived from the Caddy proxy map when the environment
   looks local, and production hosts otherwise.
+- **`@extension.dev/urls/userland`** - whole-URL builders for the public build
+  viewer. userland is the one app whose production host is per-workspace
+  (`<workspace>.extension.dev`), so its two halves cannot be chosen
+  independently and it gets its own module rather than a `paths` entry.
 
 ## Install
 
@@ -53,6 +57,21 @@ Set a single local override and every unset origin follows it to the dev proxy:
 ```ts
 resolveOrigins({ www: "http://localhost:3100" }).console;
 // -> "http://console.extension.localhost"
+```
+
+The public build viewer takes whole URLs, because the workspace lives in the
+host in production and in the path locally:
+
+```ts
+import { userlandBuildUrl } from "@extension.dev/urls/userland";
+
+userlandBuildUrl({ workspace: "acme", project: "toolbar" }, "abc1234");
+// -> "https://acme.extension.dev/toolbar/builds/abc1234"
+
+userlandBuildUrl({ workspace: "acme", project: "toolbar" }, "abc1234", {
+  base: resolveOrigins({ www: "http://localhost:3100" }).userland,
+});
+// -> "http://userland.extension.localhost/acme/toolbar/builds/abc1234"
 ```
 
 ## License

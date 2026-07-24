@@ -1,7 +1,7 @@
 {
   "name": "@extension.dev/urls",
-  "description": "One source of truth for cross-app origins and route paths across the extension.dev fleet (www, console, templates, themes, intelligence, inspect, preview) and the public MCP. Pure path builders plus an env-driven origin resolver with local-dev derivation.",
-  "version": "0.2.0",
+  "description": "One source of truth for cross-app origins and route paths across the extension.dev fleet (www, console, templates, themes, intelligence, inspect, preview, userland) and the public MCP. Pure path builders plus an env-driven origin resolver with local-dev derivation.",
+  "version": "0.3.0",
   "type": "module",
   "license": "Apache-2.0",
   "author": {
@@ -30,7 +30,8 @@
   "exports": {
     ".": "./src/index.ts",
     "./paths": "./src/paths.ts",
-    "./origins": "./src/origins.ts"
+    "./origins": "./src/origins.ts",
+    "./userland": "./src/userland.ts"
   },
   "main": "./src/index.ts",
   "types": "./src/index.ts",
@@ -73,6 +74,11 @@
         "types": "./dist/origins.d.ts",
         "import": "./dist/origins.cjs",
         "require": "./dist/origins.cjs"
+      },
+      "./userland": {
+        "types": "./dist/userland.d.ts",
+        "import": "./dist/userland.cjs",
+        "require": "./dist/userland.cjs"
       }
     }
   },

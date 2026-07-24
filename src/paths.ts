@@ -79,7 +79,10 @@ export const ConsoleProjectPage = {
 
 export type QueryValue = string | number | boolean | null | undefined;
 
-function withQuery(path: string, query?: Record<string, QueryValue>): string {
+export function withQuery(
+  path: string,
+  query?: Record<string, QueryValue>,
+): string {
   if (!query) return path;
   const params = new URLSearchParams();
   for (const [key, value] of Object.entries(query)) {

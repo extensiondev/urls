@@ -1,5 +1,22 @@
 # @extension.dev/urls
 
+## 0.3.0
+
+- Added the `userland` origin and a new `@extension.dev/urls/userland` entry
+  point covering the public build viewer: `userlandOrigin`,
+  `userlandProjectPath`, `userlandUrl`, `userlandBuildUrl`,
+  `userlandChannelUrl`, `userlandDialogUrl`, plus the `UserlandProjectPage`
+  tails and the reserved `USERLAND_BUILD_TABS`.
+- userland is the one app whose production host is per-workspace
+  (`<workspace>.extension.dev`), so `Origins.userland` holds the apex and the
+  module derives the real origin. In local dev the workspace moves into the
+  path instead, and the mode is derived from the base rather than passed, so a
+  caller cannot get prod and dev backwards.
+- This closes the last hand-rolled cross-app link: the share URL
+  `POST /api/cli/publish` returns (what `extension_publish` hands an agent to
+  pass to a human) was concatenated from a local constant and could drift from
+  the routes userland actually serves.
+
 ## 0.2.0
 
 - First public release. Renamed from the private `@extensiondev/urls` to the

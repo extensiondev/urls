@@ -15,6 +15,16 @@ export interface Origins {
   preview: string;
   templates: string;
   intelligence: string;
+  /**
+   * BASE for the public build viewer (userland.extension.dev), not a
+   * ready-to-use origin. userland is the one app whose production host is
+   * per-workspace (`<workspace>.extension.dev`), so this holds the APEX the
+   * workspace subdomain is prefixed onto in prod, and the single dev host in
+   * local dev (where the workspace lives in the path instead). Always resolve
+   * it through `userlandOrigin()` from `@extension.dev/urls/userland` rather
+   * than concatenating it yourself.
+   */
+  userland: string;
   /** Public release-state JSON host (registry.extension.land). */
   registry: string;
   /** Content-addressed template corpus host (media.extension.land). */
@@ -29,6 +39,7 @@ export const PROD_ORIGINS: Origins = {
   preview: "https://preview.extension.dev",
   templates: "https://templates.extension.dev",
   intelligence: "https://intelligence.extension.dev",
+  userland: "https://extension.dev",
   registry: "https://registry.extension.land",
   media: "https://media.extension.land",
 };
@@ -46,6 +57,7 @@ export const DEV_LOCALHOST_ORIGINS: Origins = {
   preview: "http://preview.extension.localhost",
   templates: "http://templates.extension.localhost",
   intelligence: "http://intelligence.extension.localhost",
+  userland: "http://userland.extension.localhost",
   registry: "https://registry.extension.land",
   media: "https://media.extension.land",
 };
@@ -105,6 +117,7 @@ export function resolveOrigins(
     preview: pick("preview"),
     templates: pick("templates"),
     intelligence: pick("intelligence"),
+    userland: pick("userland"),
     registry: pick("registry"),
     media: pick("media"),
   };

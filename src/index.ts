@@ -6,6 +6,11 @@
 //   - origins: env-driven host resolver with local-dev derivation (the host half)
 //
 // A full link is `origins.<app> + <pathBuilder>(...)`.
+//
+// userland is the exception and gets its own module (`@extension.dev/urls/userland`):
+// its production host is per-workspace, so the two halves cannot be chosen
+// independently and it exposes whole-URL builders instead.
 
 export * from "./paths";
 export * from "./origins";
+export * from "./userland";
