@@ -13,6 +13,9 @@
     "type": "git",
     "url": "git+https://github.com/extensiondev/urls.git"
   },
+  "bugs": {
+    "url": "https://github.com/extensiondev/urls/issues"
+  },
   "homepage": "https://github.com/extensiondev/urls#readme",
   "keywords": [
     "extension.dev",
@@ -20,6 +23,10 @@
     "origins",
     "routing"
   ],
+  "engines": {
+    "node": ">=20.18"
+  },
+  "packageManager": "pnpm@10.19.0",
   "exports": {
     ".": "./src/index.ts",
     "./paths": "./src/paths.ts",
@@ -39,6 +46,7 @@
     "compile": "rslib build",
     "build": "pnpm run compile",
     "watch": "rslib build --watch",
+    "lint": "eslint .",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "check-types": "pnpm run typecheck",
     "test": "vitest run",
@@ -69,9 +77,13 @@
     }
   },
   "devDependencies": {
-    "@extensiondev/config": "workspace:*",
-    "@rslib/core": "catalog:",
-    "typescript": "catalog:",
-    "vitest": "catalog:"
+    "@eslint/js": "^10.0.1",
+    "@rslib/core": "^0.9.2",
+    "@types/node": "^26.1.1",
+    "eslint": "^10.7.0",
+    "globals": "^17.7.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.64.0",
+    "vitest": "^3.2.2"
   }
 }

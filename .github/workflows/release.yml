@@ -1,0 +1,164 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Exact version to publish (for example 0.2.1)
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  id-token: write
+
+concurrency:
+  group: release-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.19.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - name: Validate version
+        id: validate
+        shell: bash
+        run: |
+          VERSION="$(echo "${{ inputs.version }}" | xargs)"
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Version must be plain semver, for example 0.2.1" >&2
+            exit 1
+          fi
+          TAG="v$VERSION"
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists locally" >&2
+            exit 1
+          fi
+          if [ -n "$(git ls-remote --tags origin "refs/tags/$TAG")" ]; then
+            echo "Tag $TAG already exists on origin" >&2
+            exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Extract release notes from CHANGELOG.md
+        id: notes
+        shell: bash
+        env:
+          VERSION: ${{ steps.validate.outputs.version }}
+        run: |
+          NOTES_FILE="$RUNNER_TEMP/release-notes.md"
+          awk -v ver="$VERSION" '/^## /{p=($2==ver); next} p' CHANGELOG.md \
+            | sed -e '/./,$!d' > "$NOTES_FILE"
+          if ! grep -q '[^[:space:]]' "$NOTES_FILE"; then
+            echo "CHANGELOG.md has no '## $VERSION' section. Write the changelog entry and push it before releasing." >&2
+            exit 1
+          fi
+          echo "Release notes for $VERSION:"
+          cat "$NOTES_FILE"
+          echo "file=$NOTES_FILE" >> "$GITHUB_OUTPUT"
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Build
+        run: pnpm build
+
+      - name: Test
+        run: pnpm test
+
+      - name: Read package metadata
+        id: meta
+        shell: bash
+        run: |
+          echo "name=$(node -p 'require("./package.json").name')" >> "$GITHUB_OUTPUT"
+          echo "publish_access=$(node -p 'require("./package.json").publishConfig?.access || "public"')" >> "$GITHUB_OUTPUT"
+
+      - name: Check published version
+        shell: bash
+        run: |
+          PKG="${{ steps.meta.outputs.name }}"
+          VER="${{ steps.validate.outputs.version }}"
+          if npm view "$PKG@$VER" version --registry https://registry.npmjs.org/ >/dev/null 2>&1; then
+            echo "$PKG@$VER is already published" >&2
+            exit 1
+          fi
+
+      - name: Update package version
+        env:
+          VERSION: ${{ steps.validate.outputs.version }}
+        run: |
+          node -e "const fs=require('fs');const p='package.json';const j=JSON.parse(fs.readFileSync(p,'utf8'));j.version=process.env.VERSION;fs.writeFileSync(p,JSON.stringify(j,null,2)+'\n')"
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      # Commit and tag BEFORE the manifest lift below, so the repository keeps
+      # the source-pointing exports the extension.dev monorepo consumes.
+      - name: Commit and tag release
+        env:
+          VERSION: ${{ steps.validate.outputs.version }}
+          TAG: ${{ steps.validate.outputs.tag }}
+        run: |
+          git add package.json pnpm-lock.yaml
+          if ! git diff --cached --quiet; then
+            git commit -m "Release v$VERSION"
+          fi
+          git tag -a "$TAG" --cleanup=whitespace -F "${{ steps.notes.outputs.file }}"
+          git push
+          git push origin "$TAG"
+
+      # npm ignores publishConfig entry-point overrides (pnpm honors them), so
+      # lift them into the real fields for the tarball only. Never committed.
+      - name: Point the published manifest at dist
+        run: node scripts/prepare-publish-manifest.mjs
+
+      # OIDC trusted publishing needs npm >= 11.5.1; pin the newest npm so we
+      # never depend on which patch of npm the Node runtime happens to ship.
+      - name: Upgrade npm for trusted publishing
+        run: npm install -g npm@latest
+
+      # No NODE_AUTH_TOKEN: npm authenticates via the GitHub OIDC token
+      # (id-token: write above) against the trusted publisher configured on
+      # npmjs.com for this repo/workflow. Provenance is generated automatically
+      # now that the repository is public. --ignore-scripts keeps prepublishOnly
+      # from rebuilding on top of the lifted manifest.
+      - name: Publish to npm with provenance
+        run: npm publish --provenance --access ${{ steps.meta.outputs.publish_access }} --tag latest --ignore-scripts
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.validate.outputs.version }}
+          TAG: ${{ steps.validate.outputs.tag }}
+        run: |
+          gh release create "$TAG" \
+            --verify-tag \
+            --title "v$VERSION" \
+            --notes-file "${{ steps.notes.outputs.file }}"
