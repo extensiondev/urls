@@ -11,6 +11,8 @@ export interface Origins {
   www: string;
   console: string;
   inspect: string;
+  /** Author's in-progress build preview (preview.extension.dev, the Expo Go door). */
+  preview: string;
   templates: string;
   intelligence: string;
   /** Public release-state JSON host (registry.extension.land). */
@@ -24,6 +26,7 @@ export const PROD_ORIGINS: Origins = {
   www: "https://www.extension.dev",
   console: "https://console.extension.dev",
   inspect: "https://inspect.extension.dev",
+  preview: "https://preview.extension.dev",
   templates: "https://templates.extension.dev",
   intelligence: "https://intelligence.extension.dev",
   registry: "https://registry.extension.land",
@@ -40,6 +43,7 @@ export const DEV_LOCALHOST_ORIGINS: Origins = {
   www: "http://localhost:3100",
   console: "http://console.extension.localhost",
   inspect: "http://inspect.extension.localhost",
+  preview: "http://preview.extension.localhost",
   templates: "http://templates.extension.localhost",
   intelligence: "http://intelligence.extension.localhost",
   registry: "https://registry.extension.land",
@@ -98,6 +102,7 @@ export function resolveOrigins(
     www: pick("www"),
     console: pick("console"),
     inspect: pick("inspect"),
+    preview: pick("preview"),
     templates: pick("templates"),
     intelligence: pick("intelligence"),
     registry: pick("registry"),

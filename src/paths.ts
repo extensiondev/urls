@@ -137,3 +137,18 @@ export type InspectTab = "preview" | "details" | "source" | "trace";
 export function inspectTabPath(tab: InspectTab = "preview"): string {
   return tab === "preview" ? "/" : `/${tab}`;
 }
+
+// ---------------------------------------------------------------------------
+// preview.extension.dev -- the author's in-progress build preview (the Expo Go
+// door). Ephemeral and build-scoped; pages ship noindex. The render host reads
+// an ephemeral build id off the query. Mirrors apps/preview.extension.dev.
+// ---------------------------------------------------------------------------
+
+/**
+ * `/?preview=<previewId>` -- render an ephemeral shared build in the emulator.
+ * This is the web analog of the local `preview://build/<id>` scheme; the MCP's
+ * share flow mints `<origins.preview><previewSharePath(id)>`.
+ */
+export function previewSharePath(previewId: string): string {
+  return `/?preview=${seg(previewId)}`;
+}

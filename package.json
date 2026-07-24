@@ -1,7 +1,7 @@
 {
-  "name": "@extensiondev/urls",
-  "description": "One source of truth for cross-app origins and route paths across the extension.dev fleet (www, console, templates, themes, intelligence, inspect) and the public MCP. Pure path builders plus an env-driven origin resolver with local-dev derivation.",
-  "version": "0.1.0",
+  "name": "@extension.dev/urls",
+  "description": "One source of truth for cross-app origins and route paths across the extension.dev fleet (www, console, templates, themes, intelligence, inspect, preview) and the public MCP. Pure path builders plus an env-driven origin resolver with local-dev derivation.",
+  "version": "0.2.0",
   "type": "module",
   "license": "Apache-2.0",
   "author": {
@@ -9,7 +9,17 @@
     "email": "hello@extension.dev",
     "url": "https://cezaraugusto.com"
   },
-  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/extensiondev/urls.git"
+  },
+  "homepage": "https://github.com/extensiondev/urls#readme",
+  "keywords": [
+    "extension.dev",
+    "urls",
+    "origins",
+    "routing"
+  ],
   "exports": {
     ".": "./src/index.ts",
     "./paths": "./src/paths.ts",
@@ -17,13 +27,50 @@
   },
   "main": "./src/index.ts",
   "types": "./src/index.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "NOTICE"
+  ],
   "scripts": {
+    "clean": "rm -rf dist",
+    "compile": "rslib build",
+    "build": "pnpm run compile",
+    "watch": "rslib build --watch",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "check-types": "pnpm run typecheck",
-    "test": "vitest run"
+    "test": "vitest run",
+    "prepublishOnly": "pnpm run test && pnpm run compile"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true,
+    "registry": "https://registry.npmjs.org",
+    "main": "./dist/index.cjs",
+    "types": "./dist/index.d.ts",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.cjs",
+        "require": "./dist/index.cjs"
+      },
+      "./paths": {
+        "types": "./dist/paths.d.ts",
+        "import": "./dist/paths.cjs",
+        "require": "./dist/paths.cjs"
+      },
+      "./origins": {
+        "types": "./dist/origins.d.ts",
+        "import": "./dist/origins.cjs",
+        "require": "./dist/origins.cjs"
+      }
+    }
   },
   "devDependencies": {
     "@extensiondev/config": "workspace:*",
+    "@rslib/core": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"
   }
