@@ -1,0 +1,14 @@
+{
+  "extends": "@extensiondev/config/typescript/base.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "types": [],
+    "baseUrl": ".",
+    "paths": {
+      "@extensiondev/urls/*": ["./src/*"]
+    }
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}

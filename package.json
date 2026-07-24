@@ -1,0 +1,30 @@
+{
+  "name": "@extensiondev/urls",
+  "description": "One source of truth for cross-app origins and route paths across the extension.dev fleet (www, console, templates, themes, intelligence, inspect) and the public MCP. Pure path builders plus an env-driven origin resolver with local-dev derivation.",
+  "version": "0.1.0",
+  "type": "module",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Cezar Augusto",
+    "email": "hello@extension.dev",
+    "url": "https://cezaraugusto.com"
+  },
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts",
+    "./paths": "./src/paths.ts",
+    "./origins": "./src/origins.ts"
+  },
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "check-types": "pnpm run typecheck",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@extensiondev/config": "workspace:*",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}
