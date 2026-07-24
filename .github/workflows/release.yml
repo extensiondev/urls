@@ -144,22 +144,7 @@ jobs:
       - name: Upgrade npm for trusted publishing
         run: npm install -g npm@latest
 
-      # Auth order: npm uses the GitHub OIDC token (id-token: write above) when
-      # this repo/workflow is registered as a trusted publisher on npmjs.com,
-      # and falls back to NODE_AUTH_TOKEN otherwise.
-      #
-      # The fallback is not decoration: npm only lets you configure a trusted
-      # publisher on a package that ALREADY EXISTS, so the very first publish of
-      # a new name cannot use OIDC. It still runs here in CI, never on a laptop,
-      # and provenance is generated either way now that the repo is public.
-      # Once 0.2.0 is on the registry, add the trusted publisher (this repo,
-      # release.yml) and this token becomes unused.
-      #
-      # --ignore-scripts keeps prepublishOnly from rebuilding on top of the
-      # lifted manifest.
       - name: Publish to npm with provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish --provenance --access ${{ steps.meta.outputs.publish_access }} --tag latest --ignore-scripts
 
       - name: Create GitHub release

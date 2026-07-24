@@ -13,6 +13,8 @@
 
 <img alt="Logo" align="right" src="https://media.extension.land/brand/extension-dev/logo-dock.png" width="15.5%" />
 
+## Why one package for links
+
 A cross-app link is two halves: the **host** (which app) and the **path** (which
 route inside it). Hardcode either and the day an app moves or a route is renamed,
 every caller drifts. This package keeps both halves in one place so a link a
@@ -75,6 +77,23 @@ userlandBuildUrl({ workspace: "acme", project: "toolbar" }, "abc1234", {
 });
 // -> "http://userland.extension.localhost/acme/toolbar/builds/abc1234"
 ```
+
+## The extension.dev stack
+
+| Package | Use it to |
+| --- | --- |
+| [`@extension.dev/mcp`](https://www.npmjs.com/package/@extension.dev/mcp) | Give an AI agent hands: scaffold, run, inspect, and publish extensions |
+| [`@extension.dev/skill`](https://www.npmjs.com/package/@extension.dev/skill) | Teach agents the judgment half: cross-browser rules, gotchas, playbooks |
+| [`@extension.dev/deploy`](https://www.npmjs.com/package/@extension.dev/deploy) | Ship to the Chrome, Firefox, and Edge stores from CI or a terminal |
+| [`@extension.dev/artifact-integrity`](https://www.npmjs.com/package/@extension.dev/artifact-integrity) | Verify artifacts and gate CI on tampered bytes before they ship |
+
+All of it rides on [Extension.js](https://github.com/extension-js/extension.js), the open-source cross-browser extension framework.
+
+## Community
+
+- Join the [Discord](https://discord.gg/v9h2RgeTSN) for help and feedback
+- Browse production-ready [examples](https://github.com/extension-js/examples)
+- Report Extension.js framework issues on [GitHub](https://github.com/extension-js/extension.js/issues)
 
 ## License
 
