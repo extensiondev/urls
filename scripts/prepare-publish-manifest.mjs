@@ -1,21 +1,10 @@
-// ██╗███╗   ██╗████████╗███████╗ ██████╗ ██████╗ ██╗████████╗██╗   ██╗
-// ██║████╗  ██║╚══██╔══╝██╔════╝██╔════╝ ██╔══██╗██║╚══██╔══╝╚██╗ ██╔╝
-// ██║██╔██╗ ██║   ██║   █████╗  ██║  ███╗██████╔╝██║   ██║    ╚████╔╝
-// ██║██║╚██╗██║   ██║   ██╔══╝  ██║   ██║██╔══██╗██║   ██║     ╚██╔╝
-// ██║██║ ╚████║   ██║   ███████╗╚██████╔╝██║  ██║██║   ██║      ██║
-// ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝   ╚═╝      ╚═╝
+// ██╗   ██╗██████╗ ██╗     ███████╗
+// ██║   ██║██╔══██╗██║     ██╔════╝
+// ██║   ██║██████╔╝██║     ███████╗
+// ██║   ██║██╔══██╗██║     ╚════██║
+// ╚██████╔╝██║  ██║███████╗███████║
+//  ╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝
 // Apache License 2.0 (c) 2026 Cezar Augusto and the extension.dev collaborators
-
-// The checked-in package.json points `exports` at the TypeScript sources, so
-// the extension.dev monorepo can link this repository as a submodule and
-// consume it with no build step. Published consumers need the compiled files
-// instead, and those entry points live under `publishConfig`.
-//
-// pnpm applies `publishConfig` field overrides on publish; npm does not, and
-// the release workflow publishes with npm because OIDC trusted publishing
-// lives there. So lift the overrides into the real fields right before the
-// publish step. Run this only in CI on a throwaway checkout: it rewrites
-// package.json in place.
 
 import { readFileSync, writeFileSync } from "node:fs";
 

@@ -38,11 +38,9 @@ describe("userland host mode", () => {
   });
 
   it("refuses to build a host from a slug that is not a DNS label", () => {
-    // Emitting a wrong host silently is the failure this module exists to stop.
     expect(() => userlandOrigin("not a slug")).toThrow(/subdomain label/);
     expect(() => userlandOrigin("-leading")).toThrow();
     expect(() => userlandOrigin("")).toThrow();
-    // In path mode the slug never becomes a host, so it is not rejected there.
     expect(() => userlandOrigin("not a slug", DEV)).not.toThrow();
   });
 });
@@ -98,7 +96,6 @@ describe("userland urls", () => {
     expect(
       userlandBuildUrl(ref, "abc1234", { query: { share: "tok" } }),
     ).toBe("https://acme.extension.dev/widget/builds/abc1234?share=tok");
-    // no build sha: the project's canonical public page
     expect(userlandUrl(ref)).toBe("https://acme.extension.dev/widget");
   });
 

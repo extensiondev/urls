@@ -48,7 +48,6 @@ describe("paths", () => {
     expect(wwwImportPath({ template: "react", private: true })).toBe(
       "/import?template=react&private=true",
     );
-    // empty / nullish params are dropped, not rendered as blanks
     expect(wwwNewPath({ template: "react", repo: "" })).toBe("/new?template=react");
   });
 });
@@ -62,7 +61,6 @@ describe("origins", () => {
     const origins = resolveOrigins({ www: "http://localhost:3100" });
     expect(origins.console).toBe("http://console.extension.localhost");
     expect(origins.inspect).toBe("http://inspect.extension.localhost");
-    // registry/media have no local proxy, so they stay prod even in dev
     expect(origins.registry).toBe(DEV_LOCALHOST_ORIGINS.registry);
   });
 
