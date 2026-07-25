@@ -1,5 +1,14 @@
 # @extension.dev/urls
 
+## 0.4.0
+
+- Added the `docs` origin (docs.extension.dev, the platform documentation site),
+  resolving to `http://docs.extension.localhost` in local dev like every other
+  app behind the Caddy map.
+- `Origins` gained a required field. Callers pass partial overrides to
+  `resolveOrigins`, so this is additive for them, but code that builds a whole
+  `Origins` object by hand has to name the new key.
+
 ## 0.3.0
 
 - Added the `userland` origin and a new `@extension.dev/urls/userland` entry

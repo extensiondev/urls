@@ -60,8 +60,13 @@ describe("origins", () => {
   it("derives the Caddy dev map when the base is local", () => {
     const origins = resolveOrigins({ www: "http://localhost:3100" });
     expect(origins.console).toBe("http://console.extension.localhost");
+    expect(origins.docs).toBe("http://docs.extension.localhost");
     expect(origins.inspect).toBe("http://inspect.extension.localhost");
     expect(origins.registry).toBe(DEV_LOCALHOST_ORIGINS.registry);
+  });
+
+  it("resolves the docs origin to the platform docs site in prod", () => {
+    expect(resolveOrigins().docs).toBe("https://docs.extension.dev");
   });
 
   it("derives dev from a hint even when no origin override is local", () => {

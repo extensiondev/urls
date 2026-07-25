@@ -1,7 +1,7 @@
 {
   "name": "@extension.dev/urls",
   "description": "One source of truth for cross-app origins and route paths across the extension.dev fleet (www, console, templates, themes, intelligence, inspect, preview, userland) and the public MCP. Pure path builders plus an env-driven origin resolver with local-dev derivation.",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "type": "module",
   "license": "Apache-2.0",
   "author": {

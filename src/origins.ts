@@ -9,6 +9,7 @@
 export interface Origins {
   www: string;
   console: string;
+  docs: string;
   inspect: string;
   preview: string;
   templates: string;
@@ -21,6 +22,7 @@ export interface Origins {
 export const PROD_ORIGINS: Origins = {
   www: "https://www.extension.dev",
   console: "https://console.extension.dev",
+  docs: "https://docs.extension.dev",
   inspect: "https://inspect.extension.dev",
   preview: "https://preview.extension.dev",
   templates: "https://templates.extension.dev",
@@ -33,6 +35,7 @@ export const PROD_ORIGINS: Origins = {
 export const DEV_LOCALHOST_ORIGINS: Origins = {
   www: "http://localhost:3100",
   console: "http://console.extension.localhost",
+  docs: "http://docs.extension.localhost",
   inspect: "http://inspect.extension.localhost",
   preview: "http://preview.extension.localhost",
   templates: "http://templates.extension.localhost",
@@ -78,6 +81,7 @@ export function resolveOrigins(
   return {
     www: pick("www"),
     console: pick("console"),
+    docs: pick("docs"),
     inspect: pick("inspect"),
     preview: pick("preview"),
     templates: pick("templates"),
