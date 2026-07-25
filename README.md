@@ -5,8 +5,6 @@
 [discord-image]: https://img.shields.io/discord/1253608412890271755?label=Discord&logo=discord&style=flat&color=26FFB8
 [discord-url]: https://discord.gg/v9h2RgeTSN
 
-<img alt="@extension.dev/urls" src="https://media.extension.land/brand/repos/urls/github-banner.png" />
-
 # @extension.dev/urls [![Version][npm-version-image]][npm-version-url] [![Downloads][npm-downloads-image]][npm-downloads-url] [![Discord][discord-image]][discord-url]
 
 > One source of truth for the origins and route paths that link the extension.dev fleet together.
