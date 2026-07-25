@@ -31,7 +31,8 @@
     ".": "./src/index.ts",
     "./paths": "./src/paths.ts",
     "./origins": "./src/origins.ts",
-    "./userland": "./src/userland.ts"
+    "./userland": "./src/userland.ts",
+    "./reserved-slugs": "./src/reserved-slugs.ts"
   },
   "main": "./src/index.ts",
   "types": "./src/index.ts",
@@ -79,6 +80,11 @@
         "types": "./dist/userland.d.ts",
         "import": "./dist/userland.cjs",
         "require": "./dist/userland.cjs"
+      },
+      "./reserved-slugs": {
+        "types": "./dist/reserved-slugs.d.ts",
+        "import": "./dist/reserved-slugs.cjs",
+        "require": "./dist/reserved-slugs.cjs"
       }
     }
   },

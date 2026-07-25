@@ -9,3 +9,4 @@
 export * from "./paths";
 export * from "./origins";
 export * from "./userland";
+export * from "./reserved-slugs";

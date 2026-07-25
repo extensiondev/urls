@@ -17,6 +17,7 @@ export default defineConfig({
       paths: path.resolve(__dirname, "./src/paths.ts"),
       origins: path.resolve(__dirname, "./src/origins.ts"),
       userland: path.resolve(__dirname, "./src/userland.ts"),
+      "reserved-slugs": path.resolve(__dirname, "./src/reserved-slugs.ts"),
     },
   },
   lib: [
