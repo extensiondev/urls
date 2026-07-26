@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { PROD_ORIGINS } from "../origins";
 import {
   RESERVED_WORKSPACE_SLUGS,
   isReservedWorkspaceSlug,
@@ -34,6 +35,19 @@ describe("isReservedWorkspaceSlug", () => {
       "templates",
     ]) {
       expect(RESERVED_WORKSPACE_SLUGS.has(route)).toBe(true);
+    }
+  });
+
+  it("refuses as a workspace slug the hostname of every app in the fleet", () => {
+    const squattable = Object.keys(PROD_ORIGINS).filter(
+      (app) => !RESERVED_WORKSPACE_SLUGS.has(app),
+    );
+    expect(squattable).toEqual([]);
+  });
+
+  it("keeps refusing fleet hostnames that no longer have an origins entry", () => {
+    for (const host of ["code", "intelligence", "themes"]) {
+      expect(RESERVED_WORKSPACE_SLUGS.has(host)).toBe(true);
     }
   });
 });

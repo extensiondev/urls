@@ -16,10 +16,13 @@
  * lives in this package because it is the only one both the www server and the
  * console client already depend on.
  *
- * A name belongs here when it is a path www or the console serves, or a word
- * a visitor would reasonably type expecting something other than a workspace.
- * Every name routed as reserved in www's middleware must appear here, which
- * www's own spec asserts.
+ * A name belongs here when it is a path www or the console serves, when it is
+ * the hostname of an app in the fleet, since a workspace owns
+ * <workspace>.extension.dev and would otherwise squat a live host, or when it
+ * is a word a visitor would reasonably type expecting something other than a
+ * workspace. Every name routed as reserved in www's middleware must appear
+ * here, which www's own spec asserts, and every app hostname must appear here,
+ * which this package's own spec asserts.
  */
 export const RESERVED_WORKSPACE_SLUGS: ReadonlySet<string> = new Set([
   "about",
@@ -33,6 +36,7 @@ export const RESERVED_WORKSPACE_SLUGS: ReadonlySet<string> = new Set([
   "bulk-delete",
   "careers",
   "changelog",
+  "code",
   "console",
   "contact",
   "cookies",
@@ -45,17 +49,22 @@ export const RESERVED_WORKSPACE_SLUGS: ReadonlySet<string> = new Set([
   "hello",
   "help",
   "import",
+  "inspect",
+  "intelligence",
   "internal",
   "join",
   "legal",
   "locales",
   "login",
   "logout",
+  "media",
   "mocks",
   "new",
   "people",
+  "preview",
   "pricing",
   "privacy",
+  "registry",
   "roadmap",
   "robots",
   "security",
@@ -69,6 +78,8 @@ export const RESERVED_WORKSPACE_SLUGS: ReadonlySet<string> = new Set([
   "support",
   "templates",
   "terms",
+  "themes",
+  "userland",
   "www",
 ]);
 
