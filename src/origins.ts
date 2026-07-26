@@ -13,6 +13,8 @@ export interface Origins {
   inspect: string;
   preview: string;
   templates: string;
+  themes: string;
+  code: string;
   intelligence: string;
   userland: string;
   registry: string;
@@ -26,6 +28,8 @@ export const PROD_ORIGINS: Origins = {
   inspect: "https://inspect.extension.dev",
   preview: "https://preview.extension.dev",
   templates: "https://templates.extension.dev",
+  themes: "https://themes.extension.dev",
+  code: "https://code.extension.dev",
   intelligence: "https://intelligence.extension.dev",
   userland: "https://extension.dev",
   registry: "https://registry.extension.land",
@@ -39,6 +43,8 @@ export const DEV_LOCALHOST_ORIGINS: Origins = {
   inspect: "http://inspect.extension.localhost",
   preview: "http://preview.extension.localhost",
   templates: "http://templates.extension.localhost",
+  themes: "http://themes.extension.localhost",
+  code: "http://code.extension.localhost",
   intelligence: "http://intelligence.extension.localhost",
   userland: "http://userland.extension.localhost",
   registry: "https://registry.extension.land",
@@ -85,6 +91,8 @@ export function resolveOrigins(
     inspect: pick("inspect"),
     preview: pick("preview"),
     templates: pick("templates"),
+    themes: pick("themes"),
+    code: pick("code"),
     intelligence: pick("intelligence"),
     userland: pick("userland"),
     registry: pick("registry"),

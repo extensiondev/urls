@@ -1,5 +1,20 @@
 # @extension.dev/urls
 
+## 0.5.0
+
+- Added the `code` origin (code.extension.dev), the app that hosts an anonymous
+  prompt-first session at `/s/<id>` and the same project at
+  `/<workspace>/<project>` once it graduates into a real repo.
+- `intelligence` stays exactly as it was and keeps resolving. The two are
+  deliberately live together for the length of the rename, so nothing has to
+  cut over in one step. Removing `intelligence` is the later major.
+- Added the `themes` origin (themes.extension.dev), which was a live app with no
+  entry here, so every caller that wanted a themes URL had to spell one out by
+  hand.
+- `Origins` gained two required fields. Callers pass partial overrides to
+  `resolveOrigins`, so this is additive for them, but code that builds a whole
+  `Origins` object by hand has to name the new keys.
+
 ## 0.4.0
 
 - Added the `docs` origin (docs.extension.dev, the platform documentation site),
