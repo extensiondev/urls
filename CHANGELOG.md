@@ -1,5 +1,16 @@
 # @extension.dev/urls
 
+## 0.6.0
+
+- Breaking: removed the `intelligence` origin. The app moved to
+  code.extension.dev and the host has been verified there, so the transition
+  0.5.0 staged is over. Callers reading `Origins.intelligence`,
+  `PROD_ORIGINS.intelligence` or `DEV_LOCALHOST_ORIGINS.intelligence`, and
+  callers passing `intelligence` to `resolveOrigins`, must use `code` instead.
+  A caller left on the old key no longer compiles, which is the point.
+- `intelligence` stays a reserved workspace slug. The retired hostname is still
+  resolvable in the wild, so no workspace may claim it.
+
 ## 0.5.0
 
 - Added the `code` origin (code.extension.dev), the app that hosts an anonymous

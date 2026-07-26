@@ -23,6 +23,13 @@
  * workspace. Every name routed as reserved in www's middleware must appear
  * here, which www's own spec asserts, and every app hostname must appear here,
  * which this package's own spec asserts.
+ *
+ * A name never leaves this list when its app is renamed or retired. The old
+ * hostname stays resolvable in the wild long after it stops being an `Origins`
+ * key, so handing it to a workspace would let that workspace answer for the
+ * retired host. `intelligence` is here for exactly that reason: it became
+ * `code` and is no longer an origin, and this package's own spec asserts it
+ * stays refused.
  */
 export const RESERVED_WORKSPACE_SLUGS: ReadonlySet<string> = new Set([
   "about",
