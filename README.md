@@ -2,14 +2,24 @@
 [npm-version-url]: https://www.npmjs.com/package/@extension.dev/urls
 [npm-downloads-image]: https://img.shields.io/npm/dm/%40extension.dev%2Furls.svg?color=26FFB8
 [npm-downloads-url]: https://www.npmjs.com/package/@extension.dev/urls
+[action-image]: https://github.com/extensiondev/urls/actions/workflows/ci.yml/badge.svg?branch=main&color=26FFB8
+[action-url]: https://github.com/extensiondev/urls/actions
 [discord-image]: https://img.shields.io/discord/1253608412890271755?label=Discord&logo=discord&style=flat&color=26FFB8
 [discord-url]: https://discord.gg/v9h2RgeTSN
 
-# @extension.dev/urls [![Version][npm-version-image]][npm-version-url] [![Downloads][npm-downloads-image]][npm-downloads-url] [![Discord][discord-image]][discord-url]
+# @extension.dev/urls [![Version][npm-version-image]][npm-version-url] [![Downloads][npm-downloads-image]][npm-downloads-url] [![CI][action-image]][action-url] [![Discord][discord-image]][discord-url]
 
 > One source of truth for the origins and route paths that link the extension.dev fleet together.
 
 <img alt="Logo" align="right" src="https://media.extension.land/brand/extension-dev/logo-dock.png" width="15.5%" />
+
+```bash
+npm install @extension.dev/urls
+```
+
+Powers cross-app links for www, console, docs, templates, themes, code, inspect, preview, userland, and the public MCP.
+
+[extension.dev](https://extension.dev) · [Extension.js](https://extension.js.org) · [Discord](https://discord.gg/v9h2RgeTSN)
 
 ## Why one package for links
 
@@ -30,12 +40,6 @@ tool hands back can never point at a route the app router no longer serves.
   viewer. userland is the one app whose production host is per-workspace
   (`<workspace>.extension.dev`), so its two halves cannot be chosen
   independently and it gets its own module rather than a `paths` entry.
-
-## Install
-
-```sh
-npm install @extension.dev/urls
-```
 
 ## Usage
 
@@ -95,4 +99,4 @@ All of it rides on [Extension.js](https://github.com/extension-js/extension.js),
 
 ## License
 
-Apache-2.0. See [LICENSE](./LICENSE) and [NOTICE](./NOTICE).
+Apache-2.0 (c) 2026 Cezar Augusto and the extension.dev collaborators. See [LICENSE](LICENSE).
