@@ -30,6 +30,14 @@
  * retired host. `intelligence` is here for exactly that reason: it became
  * `code` and is no longer an origin, and this package's own spec asserts it
  * stays refused.
+ *
+ * A name also belongs here when it is a top-level prefix the registry bucket
+ * already owns. `production`, `development`, `test` and `preview` are what
+ * `deployEnvironment()` stamps on every platform object-store key, and the
+ * registry Worker refuses those prefixes outright, so a workspace holding one
+ * of those slugs would get 401 on its own public build artifacts. `preview`
+ * was already here as a hostname; the other three are here so the Worker's
+ * deny can never be pointed at a customer.
  */
 export const RESERVED_WORKSPACE_SLUGS: ReadonlySet<string> = new Set([
   "about",
@@ -48,6 +56,7 @@ export const RESERVED_WORKSPACE_SLUGS: ReadonlySet<string> = new Set([
   "contact",
   "cookies",
   "dashboard",
+  "development",
   "device",
   "docs",
   "favicon",
@@ -71,6 +80,7 @@ export const RESERVED_WORKSPACE_SLUGS: ReadonlySet<string> = new Set([
   "preview",
   "pricing",
   "privacy",
+  "production",
   "registry",
   "roadmap",
   "robots",
@@ -85,6 +95,7 @@ export const RESERVED_WORKSPACE_SLUGS: ReadonlySet<string> = new Set([
   "support",
   "templates",
   "terms",
+  "test",
   "themes",
   "userland",
   "www",

@@ -45,6 +45,12 @@ describe("isReservedWorkspaceSlug", () => {
     expect(squattable).toEqual([]);
   });
 
+  it("refuses every top-level prefix the registry bucket already owns", () => {
+    for (const prefix of ["production", "preview", "development", "test"]) {
+      expect(RESERVED_WORKSPACE_SLUGS.has(prefix)).toBe(true);
+    }
+  });
+
   it("keeps refusing fleet hostnames that no longer have an origins entry", () => {
     for (const host of ["intelligence"]) {
       expect(Object.keys(PROD_ORIGINS)).not.toContain(host);
