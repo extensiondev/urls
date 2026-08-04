@@ -11,6 +11,7 @@ import {
   userlandHostMode,
   userlandOrigin,
   userlandProjectPath,
+  userlandRunUrl,
   userlandUrl,
 } from "../userland";
 
@@ -115,6 +116,15 @@ describe("userland urls", () => {
       }),
     ).toBe(
       "https://acme.extension.dev/widget/builds/abc1234/firefox?share=tok&dialog=integrity",
+    );
+  });
+
+  it("builds the run-in-browser launcher URL the console launcher links to", () => {
+    expect(userlandRunUrl(ref, "abc1234", "chrome")).toBe(
+      "https://acme.extension.dev/widget/builds/abc1234/chrome?dialog=run",
+    );
+    expect(userlandRunUrl(ref, "abc1234", "chrome")).toBe(
+      userlandDialogUrl(ref, "abc1234", "chrome", UserlandDialog.run),
     );
   });
 

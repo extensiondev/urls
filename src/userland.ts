@@ -138,3 +138,12 @@ export function userlandChannelUrl(
       : UserlandProjectPage.channel(channel);
   return userlandUrl(ref, page, options);
 }
+
+export function userlandRunUrl(
+  scope: ProjectRef,
+  sha: string,
+  browser: string,
+  options: UserlandUrlOptions = {},
+): string {
+  return userlandDialogUrl(scope, sha, browser, UserlandDialog.run, options);
+}
