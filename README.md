@@ -86,7 +86,7 @@ userlandBuildUrl({ workspace: "acme", project: "toolbar" }, "abc1234", {
 | --- | --- |
 | [`@extension.dev/mcp`](https://www.npmjs.com/package/@extension.dev/mcp) | Give an AI agent hands: scaffold, run, inspect, and publish extensions |
 | [`@extension.dev/skill`](https://www.npmjs.com/package/@extension.dev/skill) | Teach agents the judgment half: cross-browser rules, gotchas, playbooks |
-| [`@extension.dev/artifact-integrity`](https://www.npmjs.com/package/@extension.dev/artifact-integrity) | Verify artifacts and gate CI on tampered bytes before they ship |
+| [`@extension.dev/artifact-integrity`](https://www.npmjs.com/package/@extension.dev/artifact-integrity) | Check an artifact against a declared SHA-256 and gate CI on the result|
 
 All of it rides on [Extension.js](https://github.com/extension-js/extension.js), the open-source cross-browser extension framework.
 
