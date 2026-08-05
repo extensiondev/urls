@@ -6,8 +6,8 @@
 //  ╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝
 // Apache License 2.0 (c) 2026 Cezar Augusto and the extension.dev collaborators
 
-import { isLocalOrigin, PROD_ORIGINS } from "./origins";
-import { withQuery, type ProjectRef, type QueryValue } from "./paths";
+import { isLocalOrigin, PROD_ORIGINS } from "./origins.js";
+import { withQuery, type ProjectRef, type QueryValue } from "./paths.js";
 
 const seg = (value: string): string => encodeURIComponent(String(value));
 
