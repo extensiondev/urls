@@ -22,9 +22,19 @@ export default defineConfig({
   },
   lib: [
     {
-      format: "cjs",
+      format: "esm",
       syntax: "es2021",
       dts: true,
+      output: {
+        filename: {
+          js: "[name].mjs",
+        },
+      },
+    },
+    {
+      format: "cjs",
+      syntax: "es2021",
+      dts: false,
     },
   ],
 });

@@ -30,27 +30,27 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.cjs",
+      "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     },
     "./paths": {
       "types": "./dist/paths.d.ts",
-      "import": "./dist/paths.cjs",
+      "import": "./dist/paths.mjs",
       "require": "./dist/paths.cjs"
     },
     "./origins": {
       "types": "./dist/origins.d.ts",
-      "import": "./dist/origins.cjs",
+      "import": "./dist/origins.mjs",
       "require": "./dist/origins.cjs"
     },
     "./userland": {
       "types": "./dist/userland.d.ts",
-      "import": "./dist/userland.cjs",
+      "import": "./dist/userland.mjs",
       "require": "./dist/userland.cjs"
     },
     "./reserved-slugs": {
       "types": "./dist/reserved-slugs.d.ts",
-      "import": "./dist/reserved-slugs.cjs",
+      "import": "./dist/reserved-slugs.mjs",
       "require": "./dist/reserved-slugs.cjs"
     }
   },
@@ -84,27 +84,27 @@
     "exports": {
       ".": {
         "types": "./dist/index.d.ts",
-        "import": "./dist/index.cjs",
+        "import": "./dist/index.mjs",
         "require": "./dist/index.cjs"
       },
       "./paths": {
         "types": "./dist/paths.d.ts",
-        "import": "./dist/paths.cjs",
+        "import": "./dist/paths.mjs",
         "require": "./dist/paths.cjs"
       },
       "./origins": {
         "types": "./dist/origins.d.ts",
-        "import": "./dist/origins.cjs",
+        "import": "./dist/origins.mjs",
         "require": "./dist/origins.cjs"
       },
       "./userland": {
         "types": "./dist/userland.d.ts",
-        "import": "./dist/userland.cjs",
+        "import": "./dist/userland.mjs",
         "require": "./dist/userland.cjs"
       },
       "./reserved-slugs": {
         "types": "./dist/reserved-slugs.d.ts",
-        "import": "./dist/reserved-slugs.cjs",
+        "import": "./dist/reserved-slugs.mjs",
         "require": "./dist/reserved-slugs.cjs"
       }
     }
@@ -118,5 +118,6 @@
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.64.0",
     "vitest": "^3.2.2"
-  }
+  },
+  "module": "./dist/index.mjs"
 }
