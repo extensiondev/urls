@@ -1,5 +1,20 @@
 # @extension.dev/urls
 
+## 0.7.0
+
+- Added `RESERVED_MINT_SLUGS`, the first path segments the console and code
+  routing layers own under the `:workspace/:project` grammar, and refused them
+  at mint time for both record kinds. A slug that escapes into a workspace or a
+  project record becomes a URL people keep, so this set only ever grows and
+  entries never leave it when a route is retired.
+- Added `RESERVED_PROJECT_SLUGS` and `isReservedProjectSlug`. A project slug is
+  the segment after the workspace on the console and the first path segment on
+  the workspace's own userland host, so it shadows the same routing surface a
+  workspace slug does. www held a local copy of this list; the copy is gone and
+  both creation doors now read one home.
+- `RESERVED_WORKSPACE_SLUGS` now contains the mint names, so `ai`, `builds`,
+  `drafts`, `info`, `releases` and `s` can no longer be claimed as a workspace.
+
 ## 0.6.1
 
 - Added `connect` to the reserved workspace slugs. www now serves
