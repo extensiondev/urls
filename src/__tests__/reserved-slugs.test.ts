@@ -2,9 +2,30 @@ import { describe, expect, it } from "vitest";
 
 import { PROD_ORIGINS } from "../origins";
 import {
+  RESERVED_MINT_SLUGS,
+  RESERVED_PROJECT_SLUGS,
   RESERVED_WORKSPACE_SLUGS,
+  isReservedProjectSlug,
   isReservedWorkspaceSlug,
 } from "../reserved-slugs";
+
+const BOARD_MINT_LIST = [
+  "ai",
+  "code",
+  "settings",
+  "info",
+  "drafts",
+  "s",
+  "api",
+  "assets",
+  "builds",
+  "releases",
+  "new",
+  "import",
+  "shares",
+  "templates",
+  "hello",
+];
 
 describe("isReservedWorkspaceSlug", () => {
   it("refuses a reserved name however it is typed", () => {
@@ -62,5 +83,45 @@ describe("isReservedWorkspaceSlug", () => {
       expect(Object.keys(PROD_ORIGINS)).not.toContain(host);
       expect(RESERVED_WORKSPACE_SLUGS.has(host)).toBe(true);
     }
+  });
+});
+
+describe("the mint list the board called irreversible", () => {
+  it("names every slug the board reserved, one assertion per name", () => {
+    for (const slug of BOARD_MINT_LIST) {
+      expect(RESERVED_MINT_SLUGS.has(slug), slug).toBe(true);
+    }
+  });
+
+  it("reaches both record kinds, so neither creation door can mint one", () => {
+    for (const slug of BOARD_MINT_LIST) {
+      expect(RESERVED_WORKSPACE_SLUGS.has(slug), slug).toBe(true);
+      expect(RESERVED_PROJECT_SLUGS.has(slug), slug).toBe(true);
+      expect(isReservedWorkspaceSlug(slug), slug).toBe(true);
+      expect(isReservedProjectSlug(slug), slug).toBe(true);
+    }
+  });
+
+  it("goes red when the list is emptied or shrunk", () => {
+    expect(RESERVED_MINT_SLUGS.size).toBeGreaterThanOrEqual(
+      BOARD_MINT_LIST.length,
+    );
+    expect(RESERVED_PROJECT_SLUGS.size).toBeGreaterThan(
+      RESERVED_MINT_SLUGS.size - 1,
+    );
+  });
+
+  it("keeps the project reservations www grew before this file was the home", () => {
+    for (const slug of ["settings", "api", "assets", "mocks"]) {
+      expect(isReservedProjectSlug(slug), slug).toBe(true);
+    }
+  });
+
+  it("refuses a reserved project slug however it is typed", () => {
+    for (const value of ["drafts", "DRAFTS", "  Drafts  "]) {
+      expect(isReservedProjectSlug(value)).toBe(true);
+    }
+    expect(isReservedProjectSlug("my-extension")).toBe(false);
+    expect(isReservedProjectSlug("")).toBe(false);
   });
 });

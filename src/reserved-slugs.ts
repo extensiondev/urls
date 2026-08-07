@@ -39,7 +39,39 @@
  * was already here as a hostname; the other three are here so the Worker's
  * deny can never be pointed at a customer.
  */
+/* @invariant
+ * The mint list is the irreversible half of this file and it only ever grows.
+ *
+ * A slug that escapes into a workspace or project record becomes a URL people
+ * keep, so a name the fork and creation unification needs later cannot be
+ * reclaimed from a customer once minted. This set is every first segment the
+ * code and console routing layers own or will own under the unified
+ * :ws/:proj grammar, and both of www's creation doors refuse it at mint time
+ * for BOTH record kinds. Entries never leave; retiring a route does not free
+ * its name, for the same reason `intelligence` stays below.
+ */
+export const RESERVED_MINT_SLUGS: ReadonlySet<string> = new Set([
+  "ai",
+  "api",
+  "assets",
+  "builds",
+  "bulk-delete",
+  "code",
+  "drafts",
+  "founders-note",
+  "hello",
+  "import",
+  "info",
+  "new",
+  "releases",
+  "s",
+  "settings",
+  "shares",
+  "templates",
+]);
+
 export const RESERVED_WORKSPACE_SLUGS: ReadonlySet<string> = new Set([
+  ...RESERVED_MINT_SLUGS,
   "about",
   "account",
   "admin",
@@ -104,4 +136,21 @@ export const RESERVED_WORKSPACE_SLUGS: ReadonlySet<string> = new Set([
 
 export function isReservedWorkspaceSlug(slug: string): boolean {
   return RESERVED_WORKSPACE_SLUGS.has(String(slug || "").trim().toLowerCase());
+}
+
+/* @invariant
+ * A project slug is the segment after the workspace on the console and the
+ * FIRST path segment on the workspace's own userland host, so it shadows the
+ * same routing surface a workspace slug does plus the project pages the
+ * console serves beside it. `mocks` is carried over from the list www grew
+ * locally before this file became the one home; it stays for the same
+ * no-entry-ever-leaves rule as everything else.
+ */
+export const RESERVED_PROJECT_SLUGS: ReadonlySet<string> = new Set([
+  ...RESERVED_MINT_SLUGS,
+  "mocks",
+]);
+
+export function isReservedProjectSlug(slug: string): boolean {
+  return RESERVED_PROJECT_SLUGS.has(String(slug || "").trim().toLowerCase());
 }
