@@ -1,5 +1,12 @@
 # @extension.dev/urls
 
+## 0.6.1
+
+- Added `connect` to the reserved workspace slugs. www now serves
+  `/connect/github`, the branded entry and landing for installing the
+  extension.dev GitHub App, so no workspace may claim the address and
+  answer for that page.
+
 ## 0.6.0
 
 - Breaking: removed the `intelligence` origin. The app moved to
