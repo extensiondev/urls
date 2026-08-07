@@ -27,6 +27,18 @@ const BOARD_MINT_LIST = [
   "hello",
 ];
 
+const PLATFORM_IDENTITY_LIST = [
+  "extension",
+  "extension-dev",
+  "extension-js",
+  "extension-land",
+  "extension-user-land",
+  "extensiondev",
+  "extensionjs",
+  "extensionland",
+  "extensionuserland",
+];
+
 describe("isReservedWorkspaceSlug", () => {
   it("refuses a reserved name however it is typed", () => {
     for (const value of ["login", "LOGIN", "  Login  "]) {
@@ -76,6 +88,30 @@ describe("isReservedWorkspaceSlug", () => {
     for (const prefix of ["production", "preview", "development", "test"]) {
       expect(RESERVED_WORKSPACE_SLUGS.has(prefix)).toBe(true);
     }
+  });
+
+  it("refuses the platform's own names, one assertion per name", () => {
+    for (const slug of PLATFORM_IDENTITY_LIST) {
+      expect(RESERVED_WORKSPACE_SLUGS.has(slug), slug).toBe(true);
+      expect(isReservedWorkspaceSlug(slug), slug).toBe(true);
+    }
+  });
+
+  it("refuses the curated template workspace however it is typed", () => {
+    for (const value of ["extension-dev", "Extension-Dev", "  EXTENSION-DEV "]) {
+      expect(isReservedWorkspaceSlug(value), value).toBe(true);
+    }
+  });
+
+  it("goes red if the platform identity group is shrunk", () => {
+    const held = PLATFORM_IDENTITY_LIST.filter((slug) =>
+      RESERVED_WORKSPACE_SLUGS.has(slug),
+    );
+    expect(held).toHaveLength(9);
+  });
+
+  it("leaves the one workspace that already holds an ex-shard name mintable", () => {
+    expect(isReservedWorkspaceSlug("extensionboss")).toBe(false);
   });
 
   it("keeps refusing fleet hostnames that no longer have an origins entry", () => {

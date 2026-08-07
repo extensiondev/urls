@@ -70,8 +70,38 @@ export const RESERVED_MINT_SLUGS: ReadonlySet<string> = new Set([
   "templates",
 ]);
 
+/* @invariant
+ * THE PLATFORM'S OWN NAMES ARE NOT AVAILABLE TO A STRANGER.
+ *
+ * A workspace owns `<slug>.extension.dev`, and these names read as the
+ * platform rather than as a tenant of it. `extension-dev` is the workspace the
+ * curated template catalog is addressed under, so a stranger holding it owns
+ * the source half of every template address; `extensiondev`, `extension-js`
+ * and `extension-user-land` are GitHub organizations this platform operates,
+ * including the one every customer mirror repository lives in; `extension` is
+ * the name the CLI publishes under. Each is listed with its unhyphenated twin
+ * because a squatter reaching for one reaches for the other, and a name here
+ * costs nothing while a name minted is gone for good.
+ *
+ * None of these can be lost to the personal-workspace lane either: that lane
+ * mints a workspace named after a GitHub login, and every name below is an
+ * organization, which cannot sign in.
+ */
+const PLATFORM_IDENTITY_SLUGS: readonly string[] = [
+  "extension",
+  "extension-dev",
+  "extension-js",
+  "extension-land",
+  "extension-user-land",
+  "extensiondev",
+  "extensionjs",
+  "extensionland",
+  "extensionuserland",
+];
+
 export const RESERVED_WORKSPACE_SLUGS: ReadonlySet<string> = new Set([
   ...RESERVED_MINT_SLUGS,
+  ...PLATFORM_IDENTITY_SLUGS,
   "about",
   "account",
   "admin",

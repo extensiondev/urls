@@ -1,5 +1,17 @@
 # @extension.dev/urls
 
+## 0.8.0
+
+- Reserved the platform's own names as workspace slugs: `extension`,
+  `extension-dev`, `extension-js`, `extension-land`, `extension-user-land`
+  and the unhyphenated twin of each. A workspace owns
+  `<slug>.extension.dev`, so these names read as the platform rather than as
+  a tenant of it, and a minted slug can never be reclaimed.
+- `extension-dev` is the one that could not wait. It is the workspace the
+  curated template catalog is addressed under, so a stranger holding it would
+  own the source half of every template address, permanently, from the moment
+  the creation lane opens.
+
 ## 0.7.0
 
 - Added `RESERVED_MINT_SLUGS`, the first path segments the console and code
