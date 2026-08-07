@@ -38,6 +38,12 @@ describe("isReservedWorkspaceSlug", () => {
     }
   });
 
+  it("covers the www paths a workspace slug would shadow", () => {
+    for (const route of ["connect", "device", "github", "join"]) {
+      expect(RESERVED_WORKSPACE_SLUGS.has(route)).toBe(true);
+    }
+  });
+
   it("refuses as a workspace slug the hostname of every app in the fleet", () => {
     const squattable = Object.keys(PROD_ORIGINS).filter(
       (app) => !RESERVED_WORKSPACE_SLUGS.has(app),
