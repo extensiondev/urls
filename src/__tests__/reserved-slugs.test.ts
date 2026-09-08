@@ -71,6 +71,23 @@ describe("isReservedWorkspaceSlug", () => {
     }
   });
 
+  /* @invariant
+   * THE ENGINE SEGMENTS ARE ROUTES, SO THEY ARE NAMES NOBODY MAY MINT.
+   *
+   * code.extension.dev spells the browser as the last segment of a workbench
+   * address, and `/chromium` and `/firefox` are also whole addresses on their
+   * own for the scratch workbench. Before 2026-09-08 neither was reserved,
+   * and `/firefox/<project>` was readable both as the engine document and as
+   * a workspace called firefox. The routing layer's own list and this one have
+   * to name the same segments or the shadow comes back.
+   */
+  it("covers the engine segments the code workbench routes on", () => {
+    for (const engine of ["chromium", "firefox"]) {
+      expect(RESERVED_MINT_SLUGS.has(engine)).toBe(true);
+      expect(RESERVED_WORKSPACE_SLUGS.has(engine)).toBe(true);
+    }
+  });
+
   it("covers the www paths a workspace slug would shadow", () => {
     for (const route of ["connect", "device", "github", "join"]) {
       expect(RESERVED_WORKSPACE_SLUGS.has(route)).toBe(true);
