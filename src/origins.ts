@@ -6,6 +6,8 @@
 //  ╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝
 // Apache License 2.0 (c) 2026 Cezar Augusto and the extension.dev collaborators
 
+import { strip } from "./internal.js";
+
 export interface Origins {
   www: string;
   console: string;
@@ -48,10 +50,6 @@ export const DEV_LOCALHOST_ORIGINS: Origins = {
   media: "https://media.extension.land",
 };
 
-function strip(value: string | undefined | null): string {
-  return String(value ?? "").trim().replace(/\/+$/, "");
-}
-
 export function isLocalOrigin(url: string | undefined | null): boolean {
   const raw = strip(url);
   if (!raw) return false;
@@ -64,7 +62,6 @@ export function isLocalOrigin(url: string | undefined | null): boolean {
   return (
     host === "localhost" ||
     host === "127.0.0.1" ||
-    host === "::1" ||
     host === "[::1]" ||
     host === "extension.localhost" ||
     host.endsWith(".extension.localhost")

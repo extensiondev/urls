@@ -88,6 +88,7 @@ describe("origins", () => {
   it("classifies hosts, refusing to treat *.localhost as local (public-suffix trap)", () => {
     expect(isLocalOrigin("http://localhost:3100")).toBe(true);
     expect(isLocalOrigin("http://console.extension.localhost")).toBe(true);
+    expect(isLocalOrigin("http://foo.localhost")).toBe(false);
     expect(isLocalOrigin("https://console.extension.dev")).toBe(false);
     expect(isLocalOrigin("not a url")).toBe(false);
     expect(isLocalOrigin(undefined)).toBe(false);

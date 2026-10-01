@@ -45,6 +45,9 @@ jobs:
         run: pnpm test
 
       # This package ships zero runtime dependencies, so an advisory here can
-      # only come from the dev toolchain. Block on high and critical anyway.
+      # only come from the dev toolchain, and `--prod` leaves those out on
+      # purpose (da84111): a dev-only advisory never blocks CI. The step goes
+      # red only if a runtime dependency with a high or critical advisory is
+      # ever added.
       - name: Audit dependencies
         run: pnpm audit --prod --audit-level=high

@@ -40,6 +40,11 @@ tool hands back can never point at a route the app router no longer serves.
   viewer. userland is the one app whose production host is per-workspace
   (`<workspace>.extension.dev`), so its two halves cannot be chosen
   independently and it gets its own module rather than a `paths` entry.
+- **`@extension.dev/urls/reserved-slugs`** - the names a workspace or project
+  slug may never take: `isReservedWorkspaceSlug`, `isReservedProjectSlug` and
+  the sets behind them. The list lives here because this is the only package
+  both the www server that refuses a name and the console form that greys it
+  out already depend on, so the two can never drift apart again.
 
 ## Usage
 

@@ -1,5 +1,15 @@
 # @extension.dev/urls
 
+## Unreleased
+
+- Reserved `chromium` and `firefox` as mint slugs, so neither can be minted
+  as a workspace or a project. code.extension.dev spells the browser as the
+  last segment of a workbench address and serves `/chromium` and `/firefox`
+  as whole addresses for the scratch workbench, so a record by either name
+  would shadow the engine document.
+- Reserved `mcp` and `skill` as workspace slugs. www serves a page at each,
+  so no workspace may claim the address and answer for it.
+
 ## 0.8.0
 
 - Reserved the platform's own names as workspace slugs: `extension`,

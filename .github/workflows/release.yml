@@ -121,8 +121,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      # Commit and tag BEFORE the manifest lift below, so the repository keeps
-      # the source-pointing exports the extension.dev monorepo consumes.
       - name: Commit and tag release
         env:
           VERSION: ${{ steps.validate.outputs.version }}
@@ -135,11 +133,6 @@ jobs:
           git tag -a "$TAG" --cleanup=whitespace -F "${{ steps.notes.outputs.file }}"
           git push
           git push origin "$TAG"
-
-      # npm ignores publishConfig entry-point overrides (pnpm honors them), so
-      # lift them into the real fields for the tarball only. Never committed.
-      - name: Point the published manifest at dist
-        run: node scripts/prepare-publish-manifest.mjs
 
       # OIDC trusted publishing needs npm >= 11.5.1; pin the newest npm so we
       # never depend on which patch of npm the Node runtime happens to ship.

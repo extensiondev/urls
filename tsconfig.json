@@ -15,11 +15,7 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "ES2022",
-    "types": [],
-    "baseUrl": ".",
-    "paths": {
-      "@extension.dev/urls/*": ["./src/*"]
-    }
+    "types": []
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]

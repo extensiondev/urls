@@ -6,12 +6,12 @@
 //  ╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝
 // Apache License 2.0 (c) 2026 Cezar Augusto and the extension.dev collaborators
 
+import { seg } from "./internal.js";
+
 export interface ProjectRef {
   workspace: string;
   project: string;
 }
-
-const seg = (value: string): string => encodeURIComponent(String(value));
 
 function join(base: string, sub?: string): string {
   if (!sub) return base;

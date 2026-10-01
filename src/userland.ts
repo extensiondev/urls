@@ -6,10 +6,9 @@
 //  ╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝
 // Apache License 2.0 (c) 2026 Cezar Augusto and the extension.dev collaborators
 
+import { seg, strip } from "./internal.js";
 import { isLocalOrigin, PROD_ORIGINS } from "./origins.js";
 import { withQuery, type ProjectRef, type QueryValue } from "./paths.js";
-
-const seg = (value: string): string => encodeURIComponent(String(value));
 
 export type UserlandHostMode = "subdomain" | "path";
 
@@ -28,10 +27,6 @@ export type UserlandDialogName = (typeof UserlandDialog)[keyof typeof UserlandDi
 
 const DNS_LABEL = /^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i;
 
-function strip(value: string | undefined | null): string {
-  return String(value ?? "").trim().replace(/\/+$/, "");
-}
-
 export function userlandHostMode(base?: string): UserlandHostMode {
   return isLocalOrigin(strip(base) || PROD_ORIGINS.userland) ? "path" : "subdomain";
 }
@@ -47,7 +42,7 @@ export function userlandOrigin(
   const base = strip(options.base) || PROD_ORIGINS.userland;
   if (userlandHostMode(base) === "path") return base;
 
-  const slug = String(workspace ?? "").trim().toLowerCase();
+  const slug = workspace.trim();
   if (!DNS_LABEL.test(slug)) {
     throw new Error(
       `Workspace slug ${JSON.stringify(workspace)} cannot be a subdomain label; ` +
@@ -63,7 +58,7 @@ export const UserlandProjectPage = {
   overview: "",
   build: (buildId: string): string => `builds/${seg(buildId)}`,
   buildTab: (buildId: string, tab: UserlandBuildTab = "preview"): string =>
-    tab === "preview" ? `builds/${seg(buildId)}` : `builds/${seg(buildId)}/${tab}`,
+    tab === "preview" ? UserlandProjectPage.build(buildId) : `builds/${seg(buildId)}/${tab}`,
   browserBuild: (buildId: string, browser: string): string =>
     `builds/${seg(buildId)}/${seg(browser)}`,
   channel: (channel: string): string => `channels/${seg(channel)}`,

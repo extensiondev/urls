@@ -6,15 +6,8 @@
 //  ╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝
 // Apache License 2.0 (c) 2026 Cezar Augusto and the extension.dev collaborators
 
-import js from "@eslint/js";
-import globals from "globals";
-import ts from "typescript-eslint";
+export const seg = (value: string): string => encodeURIComponent(value);
 
-export default [
-  { languageOptions: { globals: globals.node } },
-  js.configs.recommended,
-  ...ts.configs.recommended,
-  {
-    ignores: ["dist/", "coverage/"],
-  },
-];
+export function strip(value: string | undefined | null): string {
+  return String(value ?? "").trim().replace(/\/+$/, "");
+}
