@@ -1,6 +1,6 @@
 # @extension.dev/urls
 
-## Unreleased
+## 0.8.1
 
 - Reserved `chromium` and `firefox` as mint slugs, so neither can be minted
   as a workspace or a project. code.extension.dev spells the browser as the
