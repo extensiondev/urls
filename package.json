@@ -69,7 +69,7 @@
     "build": "pnpm run compile",
     "watch": "rslib build --watch",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.test.json",
     "check-types": "pnpm run typecheck",
     "test": "vitest run",
     "prepublishOnly": "pnpm run test && pnpm run compile",
