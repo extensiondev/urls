@@ -1,6 +1,6 @@
 # @extension.dev/urls
 
-## Unreleased
+## 0.8.2
 
 - The console's project tab moved from `/stores` to `/submissions`, and
   `ConsoleProjectPage` now answers the new paths. Added `submissions`,
