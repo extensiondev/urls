@@ -63,6 +63,22 @@ const buildsUrl =
   consoleProjectPath({ workspace: "acme", project: "toolbar" }, ConsoleProjectPage.builds);
 ```
 
+Store submissions sit under one root on the console project. The older
+`stores` keys remain as aliases and return the same paths:
+
+```ts
+const ref = { workspace: "acme", project: "toolbar" };
+
+consoleProjectPath(ref, ConsoleProjectPage.submissions);
+// -> "/acme/toolbar/submissions"
+
+consoleProjectPath(ref, ConsoleProjectPage.submissionNew("chrome"));
+// -> "/acme/toolbar/submissions/chrome/new"
+
+consoleProjectPath(ref, ConsoleProjectPage.submission("chrome", "sub_1"));
+// -> "/acme/toolbar/submissions/chrome/sub_1"
+```
+
 Set a single local override and every unset origin follows it to the dev proxy:
 
 ```ts

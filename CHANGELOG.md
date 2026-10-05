@@ -1,5 +1,19 @@
 # @extension.dev/urls
 
+## Unreleased
+
+- The console's project tab moved from `/stores` to `/submissions`, and
+  `ConsoleProjectPage` now answers the new paths. Added `submissions`,
+  `submissionsNew`, `submissionsStore`, `submissionsStoreHistory`,
+  `submissionNew` and `submission`. The inner `submissions` segment is gone,
+  so one submission is `submissions/<store>/<submissionId>`, a new one starts
+  at `submissions/<store>/new`, and one store's full list is
+  `submissions/<store>/history`.
+- `stores`, `storesNew`, `store`, `storeSubmissions`, `storeSubmissionNew` and
+  `storeSubmission` stay as aliases and return the same new paths, so a caller
+  written against them keeps compiling. The console redirects every old
+  `/stores` address to its new twin, so links already handed out keep working.
+
 ## 0.8.1
 
 - Reserved `chromium` and `firefox` as mint slugs, so neither can be minted

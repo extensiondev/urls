@@ -27,6 +27,29 @@ export function consoleProjectPath(ref: ProjectRef, page = ""): string {
   return join(`/${seg(ref.workspace)}/${seg(ref.project)}`, page);
 }
 
+const submissionsStorePage = (store: string): string => `submissions/${seg(store)}`;
+
+const submissionsStoreHistoryPage = (store: string): string =>
+  `submissions/${seg(store)}/history`;
+
+const submissionNewPage = (store: string): string => `submissions/${seg(store)}/new`;
+
+const submissionPage = (store: string, submissionId: string): string =>
+  `submissions/${seg(store)}/${seg(submissionId)}`;
+
+/* @invariant
+ * THE STORE KEYS ARE ALIASES, AND THEY ANSWER THE SUBMISSIONS PATHS.
+ *
+ * The console's project tab moved from `/stores` to `/submissions` because
+ * the page is about the act, not the destination. `stores`, `storesNew`,
+ * `store`, `storeSubmissions`, `storeSubmissionNew` and `storeSubmission`
+ * stay so a caller written against them keeps compiling, and each returns
+ * exactly what its `submissions*` twin returns, so no caller can hand out an
+ * address the console only answers with a redirect. The inner `submissions`
+ * segment is gone because the root already says it: one store's full list is
+ * `history`, and `new` and `history` are static siblings of the submission
+ * id, which a store never mints as either word.
+ */
 export const ConsoleProjectPage = {
   overview: "",
   onboard: "onboard",
@@ -37,13 +60,18 @@ export const ConsoleProjectPage = {
   releases: "releases",
   releasesNew: "releases/new",
   release: (releaseId: string): string => `releases/${seg(releaseId)}`,
-  stores: "stores",
-  storesNew: "stores/new",
-  store: (store: string): string => `stores/${seg(store)}`,
-  storeSubmissions: (store: string): string => `stores/${seg(store)}/submissions`,
-  storeSubmissionNew: (store: string): string => `stores/${seg(store)}/submissions/new`,
-  storeSubmission: (store: string, submissionId: string): string =>
-    `stores/${seg(store)}/submissions/${seg(submissionId)}`,
+  submissions: "submissions",
+  submissionsNew: "submissions/new",
+  submissionsStore: submissionsStorePage,
+  submissionsStoreHistory: submissionsStoreHistoryPage,
+  submissionNew: submissionNewPage,
+  submission: submissionPage,
+  stores: "submissions",
+  storesNew: "submissions/new",
+  store: submissionsStorePage,
+  storeSubmissions: submissionsStoreHistoryPage,
+  storeSubmissionNew: submissionNewPage,
+  storeSubmission: submissionPage,
   projectSettings: "project-settings",
   projectSettingsSection: (section: string): string => `project-settings/${seg(section)}`,
   accessTokens: "settings/access-tokens",

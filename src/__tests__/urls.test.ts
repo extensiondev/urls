@@ -26,9 +26,61 @@ describe("paths", () => {
     expect(consoleProjectPath(ref, ConsoleProjectPage.build("abc123", "chrome"))).toBe(
       "/acme/widget/builds/abc123/chrome",
     );
-    expect(consoleProjectPath(ref, ConsoleProjectPage.storesNew)).toBe(
-      "/acme/widget/stores/new",
+    expect(consoleProjectPath(ref, ConsoleProjectPage.submissionsNew)).toBe(
+      "/acme/widget/submissions/new",
     );
+  });
+
+  it("builds the submissions pages under one root with no repeated segment", () => {
+    const ref = { workspace: "acme", project: "widget" };
+    expect(consoleProjectPath(ref, ConsoleProjectPage.submissions)).toBe(
+      "/acme/widget/submissions",
+    );
+    expect(consoleProjectPath(ref, ConsoleProjectPage.submissionsStore("chrome"))).toBe(
+      "/acme/widget/submissions/chrome",
+    );
+    expect(
+      consoleProjectPath(ref, ConsoleProjectPage.submissionsStoreHistory("chrome")),
+    ).toBe("/acme/widget/submissions/chrome/history");
+    expect(consoleProjectPath(ref, ConsoleProjectPage.submissionNew("chrome"))).toBe(
+      "/acme/widget/submissions/chrome/new",
+    );
+    expect(consoleProjectPath(ref, ConsoleProjectPage.submission("chrome", "sub 1"))).toBe(
+      "/acme/widget/submissions/chrome/sub%201",
+    );
+  });
+
+  it("keeps every store key as an alias that answers its submissions twin", () => {
+    expect(ConsoleProjectPage.stores).toBe(ConsoleProjectPage.submissions);
+    expect(ConsoleProjectPage.storesNew).toBe(ConsoleProjectPage.submissionsNew);
+    expect(ConsoleProjectPage.store("edge")).toBe(
+      ConsoleProjectPage.submissionsStore("edge"),
+    );
+    expect(ConsoleProjectPage.storeSubmissions("edge")).toBe(
+      ConsoleProjectPage.submissionsStoreHistory("edge"),
+    );
+    expect(ConsoleProjectPage.storeSubmissionNew("edge")).toBe(
+      ConsoleProjectPage.submissionNew("edge"),
+    );
+    expect(ConsoleProjectPage.storeSubmission("edge", "sub_1")).toBe(
+      ConsoleProjectPage.submission("edge", "sub_1"),
+    );
+  });
+
+  it("hands out no path that still starts at the retired stores segment", () => {
+    const tails = [
+      ConsoleProjectPage.stores,
+      ConsoleProjectPage.storesNew,
+      ConsoleProjectPage.store("chrome"),
+      ConsoleProjectPage.storeSubmissions("chrome"),
+      ConsoleProjectPage.storeSubmissionNew("chrome"),
+      ConsoleProjectPage.storeSubmission("chrome", "sub_1"),
+    ];
+    expect(tails).toHaveLength(6);
+    for (const tail of tails) {
+      expect(tail.split("/")[0]).toBe("submissions");
+      expect(tail).not.toContain("stores");
+    }
   });
 
   it("encodes slug segments", () => {
