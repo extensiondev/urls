@@ -1,5 +1,11 @@
 # @extension.dev/urls
 
+## 0.8.3
+
+- Reserved `catalog` as a project slug. The registry publishes the templates
+  catalog for the curated workspace at `<workspace>/catalog/...`, so a project
+  by that name would collide with the document every consumer reads.
+
 ## 0.8.2
 
 - The console's project tab moved from `/stores` to `/submissions`, and
