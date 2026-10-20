@@ -168,9 +168,17 @@ export function isReservedWorkspaceSlug(slug: string): boolean {
  * console serves beside it. `mocks` is carried over from the list www grew
  * locally before this file became the one home; it stays for the same
  * no-entry-ever-leaves rule as everything else.
+ *
+ * `catalog` is a registry path, not a route. The platform publishes the
+ * templates catalog for the curated workspace at
+ * `<workspace>/catalog/...` on registry.extension.land, the same segment a
+ * project's own objects occupy at `<workspace>/<project>/...`, so a project
+ * named catalog would write into the catalog's namespace and the catalog
+ * would read that project's builds back as templates.
  */
 export const RESERVED_PROJECT_SLUGS: ReadonlySet<string> = new Set([
   ...RESERVED_MINT_SLUGS,
+  "catalog",
   "mocks",
 ]);
 

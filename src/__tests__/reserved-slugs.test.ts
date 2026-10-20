@@ -170,6 +170,13 @@ describe("the mint list the board called irreversible", () => {
     }
   });
 
+  it("refuses catalog, the registry segment the templates catalog publishes under", () => {
+    for (const value of ["catalog", "CATALOG", "  Catalog  "]) {
+      expect(isReservedProjectSlug(value), value).toBe(true);
+    }
+    expect(RESERVED_PROJECT_SLUGS.has("catalog")).toBe(true);
+  });
+
   it("refuses a reserved project slug however it is typed", () => {
     for (const value of ["drafts", "DRAFTS", "  Drafts  "]) {
       expect(isReservedProjectSlug(value)).toBe(true);
