@@ -12,13 +12,6 @@ import { withQuery, type ProjectRef, type QueryValue } from "./paths.js";
 
 export type UserlandHostMode = "subdomain" | "path";
 
-export const USERLAND_BUILD_TABS = ["preview", "whats-new", "usage"] as const;
-export type UserlandBuildTab = (typeof USERLAND_BUILD_TABS)[number];
-
-export function isUserlandBuildTab(value: string): value is UserlandBuildTab {
-  return (USERLAND_BUILD_TABS as readonly string[]).includes(value);
-}
-
 export const UserlandDialog = {
   run: "run",
   integrity: "integrity",
@@ -57,18 +50,19 @@ export function userlandOrigin(
 export const UserlandProjectPage = {
   overview: "",
   build: (buildId: string): string => `builds/${seg(buildId)}`,
-  buildTab: (buildId: string, tab: UserlandBuildTab = "preview"): string =>
-    tab === "preview" ? UserlandProjectPage.build(buildId) : `builds/${seg(buildId)}/${tab}`,
   browserBuild: (buildId: string, browser: string): string =>
     `builds/${seg(buildId)}/${seg(browser)}`,
-  channel: (channel: string): string => `channels/${seg(channel)}`,
-  channelShortcut: (channel: string): string => seg(channel),
+  channel: (channel: string): string => seg(channel),
   channelBrowser: (browser: string, channel: string): string =>
-    `channels/${seg(browser)}/${seg(channel)}`,
-  version: (version: string): string => `versions/${seg(version)}`,
-  versionBrowser: (browser: string, version: string): string =>
-    `versions/${seg(browser)}/${seg(version)}`,
+    `${seg(channel)}/${seg(browser)}`,
 } as const;
+
+export const USERLAND_CHANNEL_FILES = ["updates.json", "firefox.xpi"] as const;
+export type UserlandChannelFile = (typeof USERLAND_CHANNEL_FILES)[number];
+
+export function userlandChannelFilePath(channel: string, file: UserlandChannelFile): string {
+  return `channels/${seg(channel)}/${file}`;
+}
 
 export function userlandProjectPath(
   ref: ProjectRef,
@@ -124,14 +118,21 @@ export function userlandDialogUrl(
 export function userlandChannelUrl(
   ref: ProjectRef,
   channel: string,
-  options: UserlandUrlOptions & { browser?: string; shortcut?: boolean } = {},
+  options: UserlandUrlOptions & { browser?: string } = {},
 ): string {
   const page = options.browser
     ? UserlandProjectPage.channelBrowser(options.browser, channel)
-    : options.shortcut
-      ? UserlandProjectPage.channelShortcut(channel)
-      : UserlandProjectPage.channel(channel);
+    : UserlandProjectPage.channel(channel);
   return userlandUrl(ref, page, options);
+}
+
+export function userlandChannelFileUrl(
+  ref: ProjectRef,
+  channel: string,
+  file: UserlandChannelFile,
+  options: UserlandUrlOptions = {},
+): string {
+  return userlandUrl(ref, userlandChannelFilePath(channel, file), options);
 }
 
 export function userlandRunUrl(

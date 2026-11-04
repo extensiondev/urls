@@ -1,5 +1,22 @@
 # @extension.dev/urls
 
+## Unreleased
+
+- Breaking: userland project pages are now three kinds and one alias, and
+  the builders spell only those. A channel's page is the short alias
+  `/<project>/<channel>` and one browser of it is
+  `/<project>/<channel>/<browser>`, so `userlandChannelUrl` answers those.
+  The `/channels/` page spellings, `versions/<version>`, the build tabs
+  (`builds/<sha>/whats-new` and `builds/<sha>/usage`) and the `shortcut`
+  option are gone, as are `UserlandProjectPage.buildTab`, `version`,
+  `versionBrowser`, `channelShortcut`, `USERLAND_BUILD_TABS` and
+  `isUserlandBuildTab`. userland answers each removed address with its
+  not-found page.
+- Added `userlandChannelFileUrl` and `userlandChannelFilePath` for the files
+  a channel serves (`updates.json`, `firefox.xpi`), which stay at
+  `/<project>/channels/<channel>/<file>` because signed Firefox builds carry
+  that update address.
+
 ## 0.8.3
 
 - Reserved `catalog` as a project slug. The registry publishes the templates

@@ -1,11 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { DEV_LOCALHOST_ORIGINS, PROD_ORIGINS, resolveOrigins } from "../origins";
 import {
-  USERLAND_BUILD_TABS,
   UserlandDialog,
   UserlandProjectPage,
-  isUserlandBuildTab,
   userlandBuildUrl,
+  userlandChannelFileUrl,
   userlandChannelUrl,
   userlandDialogUrl,
   userlandHostMode,
@@ -60,31 +59,17 @@ describe("userland paths", () => {
       userlandProjectPath(ref, UserlandProjectPage.browserBuild("abc1234", "chrome")),
     ).toBe("/widget/builds/abc1234/chrome");
     expect(userlandProjectPath(ref, UserlandProjectPage.channel("stable"))).toBe(
-      "/widget/channels/stable",
+      "/widget/stable",
     );
     expect(
-      userlandProjectPath(ref, UserlandProjectPage.channelBrowser("firefox", "beta")),
-    ).toBe("/widget/channels/firefox/beta");
-    expect(userlandProjectPath(ref, UserlandProjectPage.version("1.2.0"))).toBe(
-      "/widget/versions/1.2.0",
-    );
-    expect(
-      userlandProjectPath(ref, UserlandProjectPage.versionBrowser("edge", "1.2.0"), DEV),
-    ).toBe("/acme/widget/versions/edge/1.2.0");
+      userlandProjectPath(ref, UserlandProjectPage.channelBrowser("firefox", "beta"), DEV),
+    ).toBe("/acme/widget/beta/firefox");
   });
 
-  it("keeps the default build tab at the bare build path", () => {
-    expect(UserlandProjectPage.buildTab("abc1234")).toBe("builds/abc1234");
-    expect(UserlandProjectPage.buildTab("abc1234", "preview")).toBe("builds/abc1234");
-    expect(UserlandProjectPage.buildTab("abc1234", "usage")).toBe(
-      "builds/abc1234/usage",
+  it("names exactly the pages the app serves", () => {
+    expect(Object.keys(UserlandProjectPage).sort()).toEqual(
+      ["browserBuild", "build", "channel", "channelBrowser", "overview"].sort(),
     );
-  });
-
-  it("guards the reserved tab names that shadow the :browser segment", () => {
-    expect([...USERLAND_BUILD_TABS]).toEqual(["preview", "whats-new", "usage"]);
-    expect(isUserlandBuildTab("usage")).toBe(true);
-    expect(isUserlandBuildTab("chrome")).toBe(false);
   });
 
   it("encodes segments", () => {
@@ -130,10 +115,16 @@ describe("userland urls", () => {
 
   it("builds channel URLs, browser-scoped or not", () => {
     expect(userlandChannelUrl(ref, "preview")).toBe(
-      "https://acme.extension.dev/widget/channels/preview",
+      "https://acme.extension.dev/widget/preview",
     );
     expect(userlandChannelUrl(ref, "preview", { browser: "chrome" })).toBe(
-      "https://acme.extension.dev/widget/channels/chrome/preview",
+      "https://acme.extension.dev/widget/preview/chrome",
+    );
+  });
+
+  it("keeps a channel's files under channels/, apart from its page", () => {
+    expect(userlandChannelFileUrl(ref, "stable", "updates.json")).toBe(
+      "https://acme.extension.dev/widget/channels/stable/updates.json",
     );
   });
 
