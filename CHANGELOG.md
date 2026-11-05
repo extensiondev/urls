@@ -1,6 +1,6 @@
 # @extension.dev/urls
 
-## Unreleased
+## 0.8.4
 
 - Breaking: userland project pages are now three kinds and one alias, and
   the builders spell only those. A channel's page is the short alias
