@@ -1,5 +1,12 @@
 # @extension.dev/urls
 
+## 0.8.5
+
+- The README badges use a light label and a dark value, the extension.dev
+  black and white brand. No code change.
+- Tests run on vitest 4 and refuse every network call; minimatch,
+  brace-expansion, vite and source-map-js are patched past their advisories.
+
 ## 0.8.4
 
 - Breaking: userland project pages are now three kinds and one alias, and
