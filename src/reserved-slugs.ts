@@ -139,10 +139,12 @@ export const RESERVED_WORKSPACE_SLUGS: ReadonlySet<string> = new Set([
   "pricing",
   "privacy",
   "production",
+  "register",
   "registry",
   "roadmap",
   "robots",
   "security",
+  "sign-up",
   "signin",
   "signup",
   "sitemap",
@@ -154,6 +156,7 @@ export const RESERVED_WORKSPACE_SLUGS: ReadonlySet<string> = new Set([
   "test",
   "themes",
   "userland",
+  "welcome",
   "www",
 ]);
 

@@ -71,6 +71,12 @@ describe("isReservedWorkspaceSlug", () => {
     }
   });
 
+  it("covers the sign-in doors www serves or points at its sign-up page", () => {
+    for (const door of ["login", "signup", "sign-up", "register", "welcome"]) {
+      expect(isReservedWorkspaceSlug(door)).toBe(true);
+    }
+  });
+
   /* @invariant
    * THE ENGINE SEGMENTS ARE ROUTES, SO THEY ARE NAMES NOBODY MAY MINT.
    *
