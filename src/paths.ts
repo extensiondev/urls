@@ -125,6 +125,97 @@ export function inspectTabPath(tab: InspectTab = "preview"): string {
 }
 
 
-export function previewSharePath(previewId: string): string {
-  return `/?preview=${seg(previewId)}`;
+export const PREVIEW_ENGINES = ["chromium", "firefox"] as const;
+
+export type PreviewEngine = (typeof PREVIEW_ENGINES)[number];
+
+export const PREVIEW_SURFACES = [
+  "popup",
+  "options",
+  "side-panel",
+  "newtab",
+  "devtools",
+  "history",
+  "bookmarks",
+] as const;
+
+export type PreviewSurface = (typeof PREVIEW_SURFACES)[number];
+
+export const PREVIEW_SURFACE_ALIASES: Readonly<Record<string, PreviewSurface>> =
+  Object.freeze({
+    sidebar: "side-panel",
+    sidepanel: "side-panel",
+    side_panel: "side-panel",
+    panel: "side-panel",
+    "devtools-panel": "devtools",
+    devtools_panel: "devtools",
+    "devtools-page": "devtools",
+    devtools_page: "devtools",
+    "new-tab": "newtab",
+    new_tab: "newtab",
+    "options-page": "options",
+    options_page: "options",
+    "action-popup": "popup",
+  });
+
+export interface PreviewLinkOptions {
+  engine?: PreviewEngine;
+  surface?: PreviewSurface | string;
+}
+
+export function isPreviewEngine(value: unknown): value is PreviewEngine {
+  return (PREVIEW_ENGINES as readonly unknown[]).includes(value);
+}
+
+export function isPreviewSurface(value: unknown): value is PreviewSurface {
+  return (PREVIEW_SURFACES as readonly unknown[]).includes(value);
+}
+
+export function canonicalPreviewSurface(
+  alias: string | null | undefined,
+): PreviewSurface | undefined {
+  const name = String(alias ?? "").trim().toLowerCase();
+  if (!name) return undefined;
+  if (isPreviewSurface(name)) return name;
+  return Object.hasOwn(PREVIEW_SURFACE_ALIASES, name)
+    ? PREVIEW_SURFACE_ALIASES[name]
+    : undefined;
+}
+
+function previewLinkTail(options: PreviewLinkOptions | undefined): string {
+  let tail = "";
+  const engine = options?.engine;
+  if (engine !== undefined && engine !== null && String(engine) !== "") {
+    if (!isPreviewEngine(engine)) {
+      throw new RangeError(
+        `Unknown preview engine "${String(engine)}". Use one of: ${PREVIEW_ENGINES.join(", ")}.`,
+      );
+    }
+    tail += `&engine=${engine}`;
+  }
+  const asked = options?.surface;
+  if (asked !== undefined && asked !== null && String(asked).trim() !== "") {
+    const surface = canonicalPreviewSurface(asked);
+    if (!surface) {
+      throw new RangeError(
+        `Unknown preview surface "${String(asked)}". Use one of: ${PREVIEW_SURFACES.join(", ")}.`,
+      );
+    }
+    tail += `&surface=${surface}`;
+  }
+  return tail;
+}
+
+export function previewSharePath(
+  previewId: string,
+  options?: PreviewLinkOptions,
+): string {
+  return `/?preview=${seg(previewId)}${previewLinkTail(options)}`;
+}
+
+export function previewLocalPath(
+  localUrl: string,
+  options?: PreviewLinkOptions,
+): string {
+  return `/?url=${seg(localUrl)}${previewLinkTail(options)}`;
 }

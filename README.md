@@ -79,6 +79,23 @@ consoleProjectPath(ref, ConsoleProjectPage.submission("chrome", "sub_1"));
 // -> "/acme/toolbar/submissions/chrome/sub_1"
 ```
 
+A preview link names the build and, when it matters, the engine and the
+surface to open. Surface aliases such as `sidebar` resolve to one name, and an
+engine or surface no preview can open throws instead of opening the default:
+
+```ts
+import { previewLocalPath, previewSharePath } from "@extension.dev/urls/paths";
+
+previewSharePath("gen_ab");
+// -> "/?preview=gen_ab"
+
+previewSharePath("gen_ab", { engine: "firefox", surface: "sidebar" });
+// -> "/?preview=gen_ab&engine=firefox&surface=side-panel"
+
+previewLocalPath("preview://build/L3RtcC9kaXN0", { surface: "popup" });
+// -> "/?url=preview%3A%2F%2Fbuild%2FL3RtcC9kaXN0&surface=popup"
+```
+
 Set a single local override and every unset origin follows it to the dev proxy:
 
 ```ts

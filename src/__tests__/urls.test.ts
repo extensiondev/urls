@@ -1,9 +1,15 @@
 import { describe, expect, it } from "vitest";
 import {
   ConsoleProjectPage,
+  PREVIEW_ENGINES,
+  PREVIEW_SURFACES,
+  PREVIEW_SURFACE_ALIASES,
+  canonicalPreviewSurface,
   consoleProjectPath,
   consoleWorkspacePath,
   inspectTabPath,
+  previewLocalPath,
+  previewSharePath,
   templateTabPath,
   wwwImportPath,
   wwwNewPath,
@@ -101,6 +107,71 @@ describe("paths", () => {
       "/import?template=react&private=true",
     );
     expect(wwwNewPath({ template: "react", repo: "" })).toBe("/new?template=react");
+  });
+
+  it("keeps the bare preview share link when no options are given", () => {
+    expect(previewSharePath("gen_ab")).toBe("/?preview=gen_ab");
+    expect(previewSharePath("gen_ab", {})).toBe("/?preview=gen_ab");
+    expect(previewSharePath("gen_ab", { engine: undefined, surface: "" })).toBe(
+      "/?preview=gen_ab",
+    );
+    expect(previewSharePath("a&engine=firefox")).toBe("/?preview=a%26engine%3Dfirefox");
+  });
+
+  it("carries engine and canonical surface on share and local preview links", () => {
+    expect(previewSharePath("gen_ab", { engine: "firefox", surface: "sidebar" })).toBe(
+      "/?preview=gen_ab&engine=firefox&surface=side-panel",
+    );
+    expect(previewSharePath("gen_ab", { surface: "popup" })).toBe(
+      "/?preview=gen_ab&surface=popup",
+    );
+    const local = "preview://build/L3RtcC9kaXN0";
+    expect(previewLocalPath(local)).toBe(`/?url=${encodeURIComponent(local)}`);
+    const linked = new URL(
+      previewLocalPath(local, { engine: "chromium", surface: "New_Tab" }),
+      "https://preview.extension.dev",
+    );
+    expect(linked.searchParams.get("url")).toBe(local);
+    expect(linked.searchParams.get("engine")).toBe("chromium");
+    expect(linked.searchParams.get("surface")).toBe("newtab");
+  });
+
+  it("refuses an engine or surface no preview can open", () => {
+    expect(() =>
+      previewSharePath("gen_ab", { engine: "webkit" as never }),
+    ).toThrow(RangeError);
+    expect(() => previewSharePath("gen_ab", { surface: "content" })).toThrow(
+      /Unknown preview surface "content"/,
+    );
+    expect(() =>
+      previewLocalPath("preview://build/x", { surface: "popup&engine=firefox" }),
+    ).toThrow(RangeError);
+  });
+
+  it("maps every surface alias, including the MCP sidebar, onto one surface", () => {
+    expect(PREVIEW_ENGINES).toEqual(["chromium", "firefox"]);
+    expect(PREVIEW_SURFACES).toEqual([
+      "popup",
+      "options",
+      "side-panel",
+      "newtab",
+      "devtools",
+      "history",
+      "bookmarks",
+    ]);
+    for (const surface of PREVIEW_SURFACES) {
+      expect(canonicalPreviewSurface(surface)).toBe(surface);
+    }
+    for (const [alias, surface] of Object.entries(PREVIEW_SURFACE_ALIASES)) {
+      expect(PREVIEW_SURFACES).toContain(surface);
+      expect(canonicalPreviewSurface(alias)).toBe(surface);
+    }
+    expect(canonicalPreviewSurface(" SideBar ")).toBe("side-panel");
+    expect(canonicalPreviewSurface("devtools_panel")).toBe("devtools");
+    expect(canonicalPreviewSurface("action-popup")).toBe("popup");
+    for (const miss of ["", undefined, null, "content", "background", "constructor", "__proto__", "toString"]) {
+      expect(canonicalPreviewSurface(miss)).toBeUndefined();
+    }
   });
 });
 

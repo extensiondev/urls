@@ -1,5 +1,21 @@
 # @extension.dev/urls
 
+## 0.8.6
+
+- One preview link contract. `previewSharePath(id, { engine, surface })`
+  and the new `previewLocalPath(localUrl, { engine, surface })` add
+  `engine` and `surface` to a preview link, so a Firefox build opens in
+  Firefox and a link can land on the popup or side panel. With no options,
+  `previewSharePath(id)` returns exactly what it did before.
+- Added `PREVIEW_ENGINES` (`chromium`, `firefox`), `PREVIEW_SURFACES`
+  (`popup`, `options`, `side-panel`, `newtab`, `devtools`, `history`,
+  `bookmarks`), `PREVIEW_SURFACE_ALIASES`, `canonicalPreviewSurface`,
+  `isPreviewEngine` and `isPreviewSurface`. `sidebar`, `sidepanel` and
+  `panel` resolve to `side-panel`, the devtools page and panel names to
+  `devtools`. An engine or surface outside those lists throws a
+  `RangeError` instead of producing a link that opens the default.
+- Reserved `welcome`, `sign-up` and `register` as workspace names.
+
 ## 0.8.5
 
 - The README badges use a light label and a dark value, the extension.dev
